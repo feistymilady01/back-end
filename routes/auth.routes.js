@@ -22,7 +22,7 @@ module.exports = function (app) {
         .notEmpty()
         .withMessage("Last Name is required")
         .isAlpha()
-        .withMessage("Last Name can only be alphabets"),
+        .withMessage("Last Name can only be alphabets")
         .isLength({ min: 2 })
         .withMessage("First Minimum of 2 characters"),
       check("phone_number")
