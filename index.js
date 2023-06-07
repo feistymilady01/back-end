@@ -12,6 +12,8 @@ const app = express();
 const PORT = process.env.PORT || 1111;
 //connect to mongodb
 const MONGO_URI = process.env.MONGO_URI;
+//mongose connect or listens
+mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 
 //Middlewear Body parse request of content-type application/JSON
 app.use(express.json());
@@ -28,8 +30,6 @@ authRoutes(app);
 itemRoutes(app);
 userRoutes(app)
 
-//mongose connect or listens
-mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 app.listen(PORT, () => {
     console.log(PORT, `Kwillox is listening at port ${PORT}`)
 })
