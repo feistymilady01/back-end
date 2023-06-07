@@ -17,14 +17,14 @@ module.exports = function (app) {
         .isAlpha()
         .withMessage("First Name can only be alphabets")
         .isLength({ min: 2 })
-        .withMessage("First Minimum of 2 characters"),
+        .withMessage("First Name Minimum of 2 characters"),
       check("last_name")
         .notEmpty()
         .withMessage("Last Name is required")
         .isAlpha()
         .withMessage("Last Name can only be alphabets")
         .isLength({ min: 2 })
-        .withMessage("First Minimum of 2 characters"),
+        .withMessage("Last Name Minimum of 2 characters"),
       check("phone_number")
         .notEmpty()
         .withMessage("Phone Number is required")
