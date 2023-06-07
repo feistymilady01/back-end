@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 // require("dotenv/config");
-// require('dotenv').config({ path: '.env' });
+require('dotenv').config({ path: 'env' });
 require("dotenv").config()
 const itemRoutes = require("./routes/item.routes");
 const authRoutes = require("./routes/auth.routes");
@@ -17,9 +17,7 @@ const MONGO_URI = process.env.MONGO_URI;
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true, 
     useUnifiedTopology: true, 
-    useCreateIndex:true },  ()=>{
-    console.log("mongodb is connected")
-});
+    useCreateIndex:true });
 // mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 
 //Middlewear Body parse request of content-type application/JSON
