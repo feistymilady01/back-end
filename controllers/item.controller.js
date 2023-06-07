@@ -1,30 +1,49 @@
-const itemModel = require("../models/item.model");
+const ItemModel = require("../models/Item.model");
 
-exports.createItem = async (request, response) =>  {
-    //Destructure the request object
-    const { name, description, brand, price, isAvailable } = request.body;
+exports.createItem = async (request, response) => {
+  //Destructure the Request Objects
+  const { name, description, price, isAvailable } = request.body;
 
-    //using try and catch
-    try {
-        const dataToSave = { name, description, brand, price, isAvailable };
-        //save data into mongodb
-        const createItem = await itemModel.create(dataToSave);
-        response. status(200).json( {data: createItem, message:"Item created successfully"} )
-    } catch (error) {
-        response.status(500).json( {error: error.message} )
-    }
+  try {
+    const data_to_save = { name, description, price, isAvailable };
+    //Save the data to MongoDB through the Mongoose Model
+    const create_item = await ItemModel.create(data_to_save);
+    //Return a response to the user after saving the data to the database
+    response
+      .status(201)
+      .json({ data: create_item, message: "Item created successfully" });
+  } catch (err) {
+    response.status(500).json({ error: err.message });
+  }
 };
 
-exports.getAllItems = async(request, response) => {
-    try {
-        const allItems = await itemModel.find();
+exports.getAllItems = async (request, response) => {
+  try {
+    const allItems = await ItemModel.find();
 
-        if (allItems) {
-            response.status(200).json( {data:allItems, message: "All items fetched"} )
-        }else {
-            response.json(400).json({data: null, message: "No item was found"})
-        }
-    } catch (error) {
-        response.status(500).json({error:error.message})
+    if (allItems) {
+      response.status(200).json({
+        message: "All items fetched",
+        data: {
+          allItems,
+        },
+      });
+    } else {
+      response.status(404).json({ message: "No item was found", data: null });
     }
-}
+  } catch (err) {
+    response.status(500).json({ error: err.message });
+  }
+};
+
+exports.inbox = async (request, response) => {
+  try {
+    const { first_name, last_name, age, phone_number } = request.user;
+    response.status(200).json({
+      message: `Welcome ${first_name}, you are ${age} years old, your phone number is ${phone_number}`,
+      data: null,
+    });
+  } catch (err) {
+    response.status(500).json({ error: err.message });
+  }
+};
