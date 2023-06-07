@@ -1,9 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv/config");
-const authRoutes = require("./routes/user.route");
-const itemRoute = require("./routes/item.route");
-const userRoute = require("./routes/auth_route");
+const itemRoutes = require("./routes/item.routes");
+const authRoutes = require("./routes/auth.routes");
+const userRoutes = require("./routes/user.routes");
 //init express
 const app = express();
 
@@ -24,8 +24,8 @@ app.get("/", (request, response) => {
 
 //initialise the app routes
 authRoutes(app);
-itemRoute(app);
-userRoute(app)
+itemRoutes(app);
+userRoutes(app)
 
 //mongose connect or listens
 mongoose.connect(MONGO_URI, { useNewUrlParser: true })
