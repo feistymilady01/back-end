@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv/config");
-require('dotenv').config({ path: '.env' });
+// require("dotenv/config");
+// require('dotenv').config({ path: '.env' });
+require("dotenv").config()
 const itemRoutes = require("./routes/item.routes");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
@@ -13,7 +14,10 @@ const PORT = process.env.PORT || 1111;
 //connect to mongodb
 const MONGO_URI = process.env.MONGO_URI;
 //mongose connect or listens
-mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true}, ()=>{
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    useCreateIndex:true },  ()=>{
     console.log("mongodb is connected")
 });
 // mongoose.connect(MONGO_URI, { useNewUrlParser: true })
