@@ -1,4 +1,4 @@
-const ItemModel = require("../models/Item.model");
+const ItemModel = require("../models/item.model");
 
 exports.createItem = async (request, response) => {
   //Destructure the Request Objects
