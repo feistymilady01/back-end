@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 1111;
 //connect to mongodb
 const MONGO_URI = process.env.MONGO_URI;
 //mongose connect or listens
-mongoose.connect(MONGO_URI, { useNewUrlParser: true })
+mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true}, ()=>{
+    console.log("mongodb is connected")
+});
+// mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 
 //Middlewear Body parse request of content-type application/JSON
 app.use(express.json());
