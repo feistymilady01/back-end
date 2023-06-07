@@ -1,7 +1,7 @@
+const authController = require("../controllers/auth.controller");
 const { check, param, query } = require("express-validator");
-const authcontroller = require("../controllers/auth.controller");
-const validationRequest = require("../middleware/validateRequests");
-
+const validateRequests = require("../middleware/validateRequests");
+const validateAuthentication = require("../middleware/validateAuthentication");
 module.exports = function (app) {
   app.post(
     "/auth/register",
@@ -10,34 +10,36 @@ module.exports = function (app) {
         .notEmpty()
         .withMessage("Email is required")
         .isEmail()
-        .withMessage("Please provide a correct Email"),
+        .withMessage("Please provide a valid email address"),
       check("first_name")
         .notEmpty()
-        .withMessage("First Name is Required")
+        .withMessage("First Name is required")
         .isAlpha()
-        .withMessage("First name can only be alphabet")
+        .withMessage("First Name can only be alphabets")
         .isLength({ min: 2 })
-        .withMessage("First name must be length of two"),
+        .withMessage("First Minimum of 2 characters"),
       check("last_name")
         .notEmpty()
-        .withMessage("Last Name is Required")
+        .withMessage("Last Name is required")
         .isAlpha()
-        .withMessage("Last name can only be alphabet"),
+        .withMessage("Last Name can only be alphabets"),
       check("phone_number")
         .notEmpty()
-        .withMessage("phone_number is Required")
+        .withMessage("Phone Number is required")
         .isNumeric()
-        .withMessage("phone_number must be number")
+        .withMessage("Phone Number can only numeric")
         .isLength({ min: 10, max: 11 })
-        .withMessage("phone_number must be length of eleven"),
+        .withMessage(
+          "Phone Number must be minimum of 10 characters and maximum of 11"
+        ),
       check("age")
         .notEmpty()
-        .withMessage("Email is required")
+        .withMessage("Age is required")
         .isNumeric()
-        .withMessage("Age must be number"),
+        .withMessage("Age can only numeric"),
       check("password")
         .notEmpty()
-        .withMessage("Email is required")
+        .withMessage("Password is required")
         .isStrongPassword({
           minLength: 2,
           minLowercase: 1,
@@ -48,14 +50,13 @@ module.exports = function (app) {
         .withMessage(
           "Password must be minimum of 2 characters, 1 lowercase, 1 uppercase, 1 number and 1 symbol"
         ),
-        check("role")
+      check("role")
         .isIn(["admin", "user"])
         .withMessage("Role must either be admin or user"),
     ],
-    validationRequest,
-    authcontroller.creatUser
+    validateRequests,
+    authController.createUser
   );
-
   app.post(
     "/auth/login",
     [
@@ -63,10 +64,10 @@ module.exports = function (app) {
         .notEmpty()
         .withMessage("Email is required")
         .isEmail()
-        .withMessage("Please provide a correct Email"),
+        .withMessage("Please provide a valid email address"),
       check("password")
         .notEmpty()
-        .withMessage("password is required")
+        .withMessage("Password is required")
         .isStrongPassword({
           minLength: 2,
           minLowercase: 1,
@@ -78,7 +79,8 @@ module.exports = function (app) {
           "Password must be minimum of 2 characters, 1 lowercase, 1 uppercase, 1 number and 1 symbol"
         ),
     ],
-    validationRequest,
-    authcontroller.loginUser
+    validateRequests,
+    authController.loginUser
   );
+  app.get("/inbox", validateAuthentication, authController.inbox);
 };
