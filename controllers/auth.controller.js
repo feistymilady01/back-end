@@ -83,6 +83,7 @@ exports.loginUser = async (request, response) => {
   }
 };
 
+//practise
 exports.inbox = async (request, response) => {
   try {
     const { first_name, last_name, age, phone_number } = request.user;
